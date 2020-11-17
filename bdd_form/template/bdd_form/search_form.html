@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Base de données</title>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+		<script src="https://kit.fontawesome.com/63485da792.js" crossorigin="anonymous"></script>
+	</head>
+
+	<body>
+		<section class="section has-background-light">
+			<div class="title">
+				<span class="icon is-large icon-title">
+					<i class="fa fa-tachometer"></i>
+				</span>
+				<span>Tableau de bord</span>
+			</div>
+			<div class="columns">
+			<div class="column">
+			<div class="box">
+				<div class="block">
+					<form method="post">{% csrf_token %}
+						<div class="field">
+							<div class="field has-addons">
+								<div class="control is-expanded">
+									<input class="input" type="text" name="nom_commune" placeholder="Ajouter une commune">
+								</div>
+								<div class="control">
+									<button type="submit" class="button is-primary" name="ajout_commune">Ajouter</button>
+								</div>
+							</div>
+						</div>
+						<div class="field">
+							<div class="field has-addons">
+								<div class="control">
+									<div class="select">
+										<select name="commune_suppr">
+											{% for commune in communes %}
+											<option>{{ commune.nom }}</option>
+											{% endfor %}
+										</select>
+									</div>
+								</div>
+								<div class="control">
+									<button type="submit" class="button is-primary" name="suppression_commune">Supprimer la commune</button>
+								</div>
+							</div>
+						</div>
+						<div class="field">
+							<div class="field has-addons">
+								<div class="control">
+									<div class="select">
+										<select name="commune_client">
+											{% for commune in communes %}
+											<option>{{ commune.nom }}</option>
+											{% endfor %}
+										</select>
+									</div>
+								</div>
+								<div class="control">
+									<button type="submit" class="button is-primary" name="ajout_client">Ajouter un client</button>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+					<div class="block">
+
+						<h1 class="title is-size-4 center">Liste des communes enregistrées :</h1>
+						<table class="table is-narrow is-striped is-fullwidth">
+							<thead>
+								<tr>
+									<th>Commune</th>
+									<th>Nombre de client</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for commune in communes %}
+								<tr>
+									<td>{{ commune.nom }}</td>
+									<td>{{ commune.nb_client }}</td>
+								</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+
+					</div>
+				</div>
+			</div>
+			<div class="column">
+				<div class="box">
+				<div class="field">
+				  <label class="label">Name</label>
+				  <div class="control">
+					<input class="input" type="text" placeholder="Text input">
+				  </div>
+				</div>
+
+				<div class="field">
+				  <label class="label">Username</label>
+				  <div class="control has-icons-left has-icons-right">
+					<input class="input is-success" type="text" placeholder="Text input" value="bulma">
+					<span class="icon is-small is-left">
+					  <i class="fas fa-user"></i>
+					</span>
+					<span class="icon is-small is-right">
+					  <i class="fas fa-check"></i>
+					</span>
+				  </div>
+				  <p class="help is-success">This username is available</p>
+				</div>
+
+				<div class="field">
+				  <label class="label">Email</label>
+				  <div class="control has-icons-left has-icons-right">
+					<input class="input is-danger" type="email" placeholder="Email input" value="hello@">
+					<span class="icon is-small is-left">
+					  <i class="fas fa-envelope"></i>
+					</span>
+					<span class="icon is-small is-right">
+					  <i class="fas fa-exclamation-triangle"></i>
+					</span>
+				  </div>
+				  <p class="help is-danger">This email is invalid</p>
+				</div>
+
+				<div class="field">
+				  <label class="label">Subject</label>
+				  <div class="control">
+					<div class="select">
+					  <select>
+						<option>Select dropdown</option>
+						<option>With options</option>
+					  </select>
+					</div>
+				  </div>
+				</div>
+
+				<div class="field">
+				  <label class="label">Message</label>
+				  <div class="control">
+					<textarea class="textarea" placeholder="Textarea"></textarea>
+				  </div>
+				</div>
+
+				<div class="field">
+				  <div class="control">
+					<label class="checkbox">
+					  <input type="checkbox">
+					  I agree to the <a href="#">terms and conditions</a>
+					</label>
+				  </div>
+				</div>
+
+				<div class="field">
+				  <div class="control">
+					<label class="radio">
+					  <input type="radio" name="question">
+					  Yes
+					</label>
+					<label class="radio">
+					  <input type="radio" name="question">
+					  No
+					</label>
+				  </div>
+				</div>
+
+				<div class="field is-grouped">
+				  <div class="control">
+					<button class="button is-link">Submit</button>
+				  </div>
+				  <div class="control">
+					<button class="button is-link is-light">Cancel</button>
+				  </div>
+				</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	</body>
+</html>

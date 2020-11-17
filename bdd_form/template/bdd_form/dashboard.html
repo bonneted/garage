@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dashboad</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+    <script src="https://kit.fontawesome.com/63485da792.js" crossorigin="anonymous"></script>
+  </head>
+  <body>
+  <section class="section has-background-light">
+    <div class="title">
+      <span class="icon is-large icon-title">
+        <i class="fa fa-tachometer"></i>
+      </span>
+      <span>Tableau de bord</span>
+    </div>
+    <div class="tile is-ancestor">
+      <div class="tile is-4 is-vertical is-parent">
+        <div class="tile is-child box">
+          <p class="title is-size-4">Nouveau client</p>
+          <div class="notification is-success" {{ client_success }}>
+            <span class="icon icon-title">
+              <i class="fas fa-lg fa-check"></i>
+            </span>
+            <span class="ml-2">Le client a bien été ajouté !</span>
+          </div>
+          <div class="notification is-danger" {{ client_fail }}>
+            <span class="icon icon-title">
+              <i class="fas fa-lg fa-times"></i>
+            </span>
+            <span class="ml-2">Ce client existe déjà !</span>
+          </div>
+          <form method="post">{% csrf_token %}
+            <div class="field">
+              <label class="label" for="{{ clientform.prenom.id_for_label }}">Prénom</label>
+              <div class="control">
+                {{ clientform.prenom }}
+              </div>
+            </div>
+            <div class="field">
+              <label class="label" for="{{ clientform.nom.id_for_label }}">Nom</label>
+              <div class="control">
+                {{ clientform.nom }}
+              </div>
+            </div>
+            <div class="field">
+              <label class="label" for="{{ clientform.commune.id_for_label }}">Commune</label>
+              <div class="control">
+                {{ clientform.commune }}
+                <datalist id="commune_list">
+                {% for commune in communes %}
+                  <option>{{ commune.nom }}</option>
+                {% endfor %}
+                </datalist>
+              </div>
+            </div>
+            <div class="field">
+              <label class="label" for="{{ clientform.nom_admin.id_for_label }}">Référent</label>
+              <div class="control">
+                {{ clientform.nom_admin }}
+              </div>
+            </div>
+            <div class="field is-grouped is-grouped-right">
+              <div class="control">
+                <button type="submit" class="button is-primary" name="ajout_client">Envoyer</button>
+              </div>
+              <div class="control">
+                <button type="submit" class="button is-light" name="annuler">Annuler</button>
+              </div>
+            </div>
+					</form>
+        </div>
+        <div class="tile is-child box">
+          <p class="title is-size-4">Nouvelle voiture</p>
+          <div class="notification is-success" {{ voiture_success }}>
+            <span class="icon icon-title">
+              <i class="fas fa-lg fa-check"></i>
+            </span>
+            <span class="ml-2">Le voiture a bien été ajoutée !</span>
+          </div>
+          <div class="notification is-danger" {{ voiture_fail }}>
+            <span class="icon icon-title">
+              <i class="fas fa-lg fa-times"></i>
+            </span>
+            <span class="ml-2">Cette voiture existe déjà !</span>
+          </div>
+          <form method="post">{% csrf_token %}
+            <div class="field">
+              <label class="label">Propriétaire</label>
+              <div class="control">
+                <div class="select">
+                  <select name="proprietaire">
+                    {% for client in clients %}
+                    <option value={{ client.id }}>{{ client.prenom }} {{ client.nom }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="field">
+              <label class="label" for="{{ voitureform.immatriculation.id_for_label }}">Immatriculation</label>
+              <div class="control">
+                {{ voitureform.immatriculation }}
+              </div>
+            </div>
+            <div class="field">
+              <label class="label" for="{{ voitureform.marque.id_for_label }}">Marque</label>
+              <div class="control">
+                {{ voitureform.marque }}
+                <datalist id="marque_list">
+                {% for voiture in voitures %}
+                  <option>{{ voiture.marque }}</option>
+                {% endfor %}
+                </datalist>
+              </div>
+            </div>
+            <div class="field">
+              <label class="label" for="{{ voitureform.type_voiture.id_for_label }}">Type</label>
+              <div class="control">
+                {{ voitureform.type_voiture }}
+                <datalist id="type_list">
+                {% for voiture in voitures %}
+                  <option>{{ voiture.type_voiture }}</option>
+                {% endfor %}
+                </datalist>
+              </div>
+            </div>
+            <div class="field">
+              <label class="label" for="{{ voitureform.kilometrage.id_for_label }}">Kilométrage</label>
+              <div class="control">
+                {{ voitureform.kilometrage }}
+              </div>
+            </div>
+            <div class="field is-grouped is-grouped-right">
+              <div class="control">
+                <button type="submit" class="button is-primary" name="ajout_voiture">Envoyer</button>
+              </div>
+              <div class="control">
+                <button type="submit" class="button is-light" name="annuler">Annuler</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="tile is-vertical is-parent">
+        <div class="tile is-child box">
+          <p class="title is-size-4">Clients</p>
+          <table class="table is-narrow is-striped is-fullwidth">
+						<thead>
+							<tr>
+								<th>Prénom</th>
+								<th>Nom</th>
+                <th>Commune</th>
+                <th>Référent</th>
+							</tr>
+						</thead>
+						<tbody>
+              <tr>
+                <form method="post">{% csrf_token %}
+                  <td>
+                    <div class="control">
+                      {{ clientform.prenom }}
+                    </div>
+                  </td>
+                  <td>
+                    <div class="control">
+                      {{ clientform.nom }}
+                    </div>
+                  </td>
+                  <td>
+                    <div class="control">
+                      {{ clientform.commune }}
+                      <datalist id="commune_list">
+                      {% for commune in communes %}
+                        <option>{{ commune.nom }}</option>
+                      {% endfor %}
+                      </datalist>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="control">
+                      {{ clientform.nom_admin }}
+                    </div>
+                  </td>
+                  <td>
+                    <div class="control">
+                      <button type="submit" class="button is-small is-success is-outlined" name="ajout_client"><i class="fas fa-plus"></i></button>
+                    </div>
+                  </td>
+                </form>
+              </tr>
+              <form method="post">{% csrf_token %}
+							{% for client in clients %}
+							<tr>
+								<td>{{ client.prenom }}</td>
+								<td>{{ client.nom }}</td>
+                <td>{{ client.commune.nom }}</td>
+                <td>{{ client.nom_admin }}</td>
+                <td>
+                  <div class="control">
+                    <button type="submit" class="button is-danger is-small is-outlined" name="suppr_client" value={{ client.id }}><i class="fas fa-times"></i></button>
+                  </div>
+                </td>
+							</tr>
+							{% endfor %}
+              </form>
+						</tbody>
+					</table>
+        </div>
+        <div class="tile is-child box">
+          <p class="title is-size-4">Voitures</p>
+          <table class="table is-narrow is-striped is-fullwidth">
+            <thead>
+              <tr>
+                <th>Propriétaire</th>
+                <th>Immatriculation</th>
+                <th>Marque</th>
+                <th>Type</th>
+                <th>Kilométrage</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <form method="post">{% csrf_token %}
+                  <td>
+                    <div class="control">
+                      {{ clientform.proprietaire }}
+                    </div>
+                  </td>
+                  <td>
+                    <div class="control">
+                      {{ clientform.immatriculation }}
+                    </div>
+                  </td>
+                  <td>
+                    <div class="control">
+                      {{ clientform.marque }}
+                      <datalist id="commune_list">
+                      {% for commune in communes %}
+                        <option>{{ commune.nom }}</option>
+                      {% endfor %}
+                      </datalist>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="control">
+                      {{ clientform.type_voiture }}
+                    </div>
+                  </td>
+                  <td>
+                    <div class="control">
+                      <button type="submit" class="button is-small is-success is-outlined" name="ajout_client"><i class="fas fa-plus"></i></button>
+                    </div>
+                  </td>
+                </form>
+              </tr>
+              <form method="post">{% csrf_token %}
+              {% for voiture in voitures %}
+              <tr>
+                <td>{{ voiture.proprietaire }}</td>
+                <td>{{ voiture.immatriculation }}</td>
+                <td>{{ voiture.marque }}</td>
+                <td>{{ voiture.type_voiture }}</td>
+                <td>
+                  <div class="control">
+                    <button type="submit" class="button is-danger is-small is-outlined" name="suppr_client" value={{ client.id }}><i class="fas fa-times"></i></button>
+                  </div>
+                </td>
+              </tr>
+              {% endfor %}
+              </form>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+  </body>
+</html>
