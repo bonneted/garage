@@ -28,6 +28,26 @@
         <span>Tableau de bord</span>
       </div>
       <div class="tile is-ancestor">
+        <div class="tile is-parent">
+          <div class="tile is-child box">
+            {% block reparation_form %}{% endblock %}
+            <div class="field has-addons" id='piece_field' style="display: none">
+              <div class="control" id='piece_detachee'>
+              <div class="select">
+                  <select>
+                      {% for piece in pieces %}
+                      <option>
+                        {{ piece.nom }}
+                      </option>
+                      {% endfor %}
+                  </select>
+              </div>
+              </div>
+              <div class="control">
+                <button type="submit" class="button is-danger" onclick="suppr_parent(event)"><i class="fas fa-times"></i></button>
+              </div>
+          </div>
+        </div>
         <div class="tile is-vertical is-parent">
           <div class="tile is-child box">
             <div style="display: flex; justify-content: space-between">
@@ -49,7 +69,6 @@
               </div>
             </div>
             {% block client_notification %}{% endblock %}
-            
             <table class="table is-narrow is-striped is-fullwidth">
               <thead>
                 <tr>

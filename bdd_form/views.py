@@ -53,6 +53,8 @@ def dashboard(request):
     communes = Commune.objects.all()
     voitures = Voiture.objects.all()
     clients = Client.objects.all()
+    techniciens = Technicien.objects.all()
+    pieces = Piece_detachee.objects.all()
     clientform = ClientForm()
     voitureform = VoitureForm()
 
@@ -128,6 +130,8 @@ def dashboard(request):
         'communes': communes,
         'voitures': voitures,
         'clients': clients,
+        'techniciens': techniciens,
+        'pieces': pieces,
         'clientform': clientform,
         'voitureform': voitureform,
         'loading_status': loading_status,

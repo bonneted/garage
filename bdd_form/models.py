@@ -33,3 +33,4 @@ class Reparation(models.Model):
     duree = models.DurationField(blank=True)
     voiture = models.ForeignKey(Voiture, on_delete=models.CASCADE)
     pieces_detachees= models.ManyToManyField(Piece_detachee,related_name='reparations')
+    

@@ -1,6 +1,10 @@
 function hide_parent(evt) {
   evt.currentTarget.parentNode.style.display = 'none';
 }
+function suppr_parent(evt) {
+  var parent = evt.currentTarget.parentNode.parentNode;
+  parent.parentNode.removeChild(parent);
+}
 
 var delete_buttons = document.getElementsByClassName("delete");
 for (var i = 0; i < delete_buttons.length; i++) {
@@ -32,6 +36,17 @@ function recherche(evt) {
   }
 }
 
+function ajout_piece(evt) {
+  var nouv_piece = document.getElementById("piece_field").cloneNode(true);
+  nouv_piece.style.display = ''
+  evt.currentTarget.parentNode.parentNode.parentNode.appendChild(nouv_piece);
+  console.log(nouv_piece)
+}
+
+function myFunction() {
+
+}
+
 $('#buttonRechClient').on('click', recherche);
 $('#textRechClient').on('focusout', recherche); 
 $('#textRechClient').on('keypress',function(e) {if(e.which == 13) {recherche(e)}});
@@ -40,7 +55,12 @@ $('#buttonRechVoiture').on('click', recherche);
 $('#textRechVoiture').on('focusout', recherche); 
 $('#textRechVoiture').on('keypress',function(e) {if(e.which == 13) {recherche(e)}});
 
+$('#ajout_piece').on('click', ajout_piece);
+
+
 const loading_status = JSON.parse(document.getElementById('loading_status').textContent);
 console.log(loading_status)
+
+
 
 
