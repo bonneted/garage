@@ -45,9 +45,6 @@ def search(request):
             commune.delete()
             # commune.save()
 
-
-
-
     return render(request, 'bdd_form/dashboard.html', context)
 
 
@@ -59,10 +56,7 @@ def dashboard(request):
     clientform = ClientForm()
     voitureform = VoitureForm()
 
-    client_success='hidden'
-    client_fail='hidden'
-    voiture_success='hidden'
-    voiture_fail='hidden'
+    loading_status = "get"
 
     if request.method == 'POST':
 
@@ -94,9 +88,9 @@ def dashboard(request):
                         commune = commune
                     )
 
-                    client_success=''
+                    loading_status='client_success'
                 else:
-                    client_fail=''
+                    loading_status='client_fail'
 
         if 'ajout_voiture' in request.POST:
             voitureform = VoitureForm(request.POST)
@@ -115,14 +109,20 @@ def dashboard(request):
                         kilometrage = request.POST.get('kilometrage'),
                         proprietaire = Client.objects.get(id=proprietaire_id)
                     )
-                    voiture_success=''
+                    loading_status='voiture_success'
                 else:
-                    voiture_fail=''
+                    loading_status='voiture_fail'
 
         if 'suppr_client' in request.POST:
             id_client_suppr = request.POST.get('suppr_client')
             client_suppr = Client.objects.get(id=id_client_suppr)
             client_suppr.delete()
+
+        if 'suppr_voiture' in request.POST:
+            id_voiture_suppr = request.POST.get('suppr_voiture')
+            voiture_suppr = Voiture.objects.get(id=id_voiture_suppr)
+            voiture_suppr.delete()
+
 
     context = {
         'communes': communes,
@@ -130,10 +130,7 @@ def dashboard(request):
         'clients': clients,
         'clientform': clientform,
         'voitureform': voitureform,
-        'client_success': client_success,
-        'client_fail': client_fail,
-        'voiture_success': voiture_success,
-        'voiture_fail': voiture_fail,
+        'loading_status': loading_status,
     }
 
     return render(request, 'bdd_form/dashboard.html', context)

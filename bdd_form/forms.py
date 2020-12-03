@@ -30,23 +30,23 @@ class VoitureForm(forms.Form):
     marque = forms.CharField(
         label='Marque',
         max_length=100,
-        widget=forms.TextInput(attrs={'class': 'input','placeholder':'ex: Peugeot'}),
+        widget=forms.TextInput(attrs={'class': 'input is-small','placeholder':'ex: Peugeot'}),
         required=True
         )
     type_voiture = forms.CharField(
         label='Type',
         max_length=100,
-        widget=forms.TextInput(attrs={'class': 'input','placeholder':'ex: 208'}),
+        widget=forms.TextInput(attrs={'class': 'input is-small','placeholder':'ex: 208'}),
         required=True
         )
     immatriculation = forms.CharField(
         label='Immatriculation',
         max_length=9,
-        widget=forms.TextInput(attrs={'class': 'input','placeholder':'ex: 12AAA12, 12-AAA-12'}),
+        widget=forms.TextInput(attrs={'class': 'input is-small','placeholder':'ex: 12AAA12, 12-AAA-12'}),
         required=True
         )
     kilometrage = forms.IntegerField(
         label='Kilométrage',
-        widget=forms.NumberInput(attrs={'class': 'input','placeholder':'ex: 10000'}),
+        widget=forms.NumberInput(attrs={'class': 'input is-small','placeholder':'ex: 10000'}),
         required=True
         )
