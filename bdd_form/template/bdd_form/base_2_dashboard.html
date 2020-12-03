@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    {% load static %}
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Dashboard</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css"
+    />
+    <script
+      src="https://kit.fontawesome.com/63485da792.js"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+      integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
+      crossorigin="anonymous"
+    ></script>
+    <style>
+        * {box-sizing: border-box}
+        
+        /* Set height of body and the document to 100% */
+        body, html {
+          height: 100%;
+          margin: 0;
+        }
+        
+        /* Style tab links */
+        .tablink {
+          background-color: #555;
+          color: white;
+          float: left;
+          border: none;
+          outline: none;
+          cursor: pointer;
+          padding: 14px 16px;
+          font-size: 17px;
+          width: 25%;
+        }
+        
+        .tablink:hover {
+          background-color: #777;
+        }
+        
+        /* Style the tab content (and add height:100% for full page content) */
+        .tabcontent {
+          display: none;
+          padding: 100px 20px;
+        }
+        
+    </style>
+  </head>
+  <body>
+    <button class="tablink" onclick="openPage('ClientVoiture', this)" id="defaultOpen">Client/Voiture</button>
+    <button class="tablink" onclick="openPage('Reparation', this)" >Reparation</button>
+    <button class="tablink" onclick="openPage('Contact', this)">Contact</button>
+    <button class="tablink" onclick="openPage('About', this)">About</button>
+    
+    <div id="ClientVoiture" class="tabcontent has-background-light">
+              <div class="tile is-vertical is-parent">
+                <div class="tile is-child box">
+                  <div style="display: flex; justify-content: space-between">
+                    <h1 class="title is-size-4">Clients</h1>
+                    <div class="field has-addons">
+                      <div class="control">
+                        <input
+                          class="input"
+                          type="text"
+                          placeholder="Rechercher"
+                          id="textRechClient"
+                        />
+                      </div>
+                      <div class="control">
+                        <a class="button is-info" id="buttonRechClient">
+                          <i class="fas fa-search"></i>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                  {% block client_notification %}{% endblock %}
+                  <table class="table is-narrow is-striped is-fullwidth">
+                    <thead>
+                      <tr>
+                        <th>Prénom</th>
+                        <th>Nom</th>
+                        <th>Commune</th>
+                        <th>Référent</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <form method="post" id='ajout_client'>
+                          {% csrf_token %}
+                          <td>
+                            <div class="control">{{ clientform.prenom }}</div>
+                          </td>
+                          <td>
+                            <div class="control">{{ clientform.nom }}</div>
+                          </td>
+                          <td>
+                            <div class="control">
+                              {{ clientform.commune }}
+                              <datalist id="commune_list">
+                                {% for commune in communes %}
+                                <option>{{ commune.nom }}</option>
+                                {% endfor %}
+                              </datalist>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="control">{{ clientform.nom_admin }}</div>
+                          </td>
+                          <td>
+                            <div class="control">
+                              <button
+                                type="submit"
+                                class="button is-small is-success is-outlined"
+                                name="ajout_client"
+                              >
+                                <i class="fas fa-plus"></i>
+                              </button>
+                            </div>
+                          </td>
+                        </form>
+                      </tr>
+                      
+                      <form method="post" id='suppr_client'>
+                        {% csrf_token %}
+                        {% for client in clients %}
+                        <tr>
+                          <td>{{ client.prenom }}</td>
+                          <td>{{ client.nom }}</td>
+                          <td>{{ client.commune.nom }}</td>
+                          <td>{{ client.nom_admin }}</td>
+                          <td>
+                            <div class="control">
+                              <button
+                                type="submit"
+                                class="button is-danger is-small is-outlined"
+                                name="suppr_client"
+                                value= {{ client.id }} 
+                              >
+                                <i class="fas fa-times"></i>
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                        {% endfor %}
+                      </form>
+                    </tbody>
+                  </table>
+                  
+                </div>
+                <div class="tile is-child box">
+                  <div style="display: flex; justify-content: space-between">
+                    <h1 class="title is-size-4">Voitures</h1>
+                    <div class="field has-addons">
+                      <div class="control">
+                        <input
+                          class="input"
+                          type="text"
+                          placeholder="Rechercher"
+                          id="textRechVoiture"
+                        />
+                      </div>
+                      <div class="control">
+                        <a class="button is-info" id="buttonRechVoiture">
+                          <i class="fas fa-search"></i>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                  {% block voiture_notification %}{% endblock %}
+                  <table class="table is-narrow is-striped is-fullwidth">
+                    <thead>
+                      <tr>
+                        <th>Propriétaire</th>
+                        <th>Immatriculation</th>
+                        <th>Marque</th>
+                        <th>Type</th>
+                        <th>Kilométrage</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <form method="post" id="ajout_voiture">
+                          {% csrf_token %}
+                          <td>
+                            <div class="control">
+                              <div class="select is-small">
+                                <select name="proprietaire">
+                                  {% for client in clients %}
+                                  <option value= {{ client.id }}>
+                                    {{ client.prenom }} {{ client.nom }}
+                                  </option>
+                                  {% endfor %}
+                                </select>
+                              </div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="control">
+                              {{ voitureform.immatriculation }}
+                            </div>
+                          </td>
+                          <td>
+                            <div class="control">
+                              {{ voitureform.marque }}
+                              <datalist id="marque_list">
+                                {% for voiture in voitures %}
+                                <option>{{ voiture.marque }}</option>
+                                {% endfor %}
+                              </datalist>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="control">
+                              {{ voitureform.type_voiture }}
+                              <datalist id="type_list">
+                                {% for voiture in voitures %}
+                                <option>{{ voiture.type_voiture }}</option>
+                                {% endfor %}
+                              </datalist>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="control">{{ voitureform.kilometrage }}</div>
+                          </td>
+                          <td>
+                            <div class="control">
+                              <button
+                                type="submit"
+                                class="button is-small is-success is-outlined"
+                                name="ajout_voiture"
+                              >
+                                <i class="fas fa-plus"></i>
+                              </button>
+                            </div>
+                          </td>
+                        </form>
+                      </tr>
+                      <form method="post" id="suppr_voiture">
+                        {% csrf_token %} 
+                        {% for voiture in voitures %}
+                        <tr>
+                          <td>
+                            {{ voiture.proprietaire.prenom }} 
+                            {{ voiture.proprietaire.nom }}
+                          </td>
+                          <td>{{ voiture.immatriculation }}</td>
+                          <td>{{ voiture.marque }}</td>
+                          <td>{{ voiture.type_voiture }}</td>
+                          <td>{{ voiture.kilometrage }}</td>
+                          <td>
+                            <div class="control">
+                              <button
+                                type="submit"
+                                class="button is-danger is-small is-outlined"
+                                name="suppr_voiture"
+                                value= {{ voiture.id }}
+                              >
+                                <i class="fas fa-times"></i>
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                        {% endfor %}
+                      </form>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+
+    
+    <div id="Reparation" class="tabcontent has-background-light">
+        <div class="tile is-parent">
+            <div class="tile is-4 is-child box">
+              {% block reparation_form %}{% endblock %}
+              <div class="field has-addons" id='piece_field' style="display: none">
+                <div class="control" id='piece_detachee'>
+                <div class="select">
+                    <select>
+                        {% for piece in pieces %}
+                        <option>
+                          {{ piece.nom }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                </div>
+                <div class="control">
+                  <button type="submit" class="button is-danger" onclick="suppr_parent(event)"><i class="fas fa-times"></i></button>
+                </div>
+            </div>
+          </div>
+        </div>
+    </div>
+    
+    <div id="Contact" class="tabcontent">
+      <h3>Contact</h3>
+      <p>Get in touch, or swing by for a cup of coffee.</p>
+    </div>
+    
+    <div id="About" class="tabcontent">
+      <h3>About</h3>
+      <p>Who we are and what we do.</p>
+    </div>
+
+    {{ loading_status|json_script:"loading_status" }}
+    <script src="{% static 'bdd_form/js/main.js' %}"></script>
+  </body>
+</html>

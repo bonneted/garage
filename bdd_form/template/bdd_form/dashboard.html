@@ -1,4 +1,4 @@
-{% extends 'bdd_form/base_dashboard.html' %}
+{% extends 'bdd_form/base_2_dashboard.html' %}
 
 
 {% block client_notification %}
@@ -37,22 +37,29 @@
 
 {% block reparation_form %}
 <h1 class="title is-size-4">Réparation</h1>
-    <div class="field">
-        <label class="label">Voiture</label>
+    <div class="field is-horizontal">
+        <div class="field-label is-normal">
+            <label class="label">Voiture</label>
+        </div>
+        <div class="field-body">
         <div class="control">
         <div class="select">
             <select>
                 {% for voiture in voitures %}
-                <option>
-                  {{ voiture.immatriculation }}
+                <option value={{ voiture.id }}>
+                    {{ voiture.marque }} {{ voiture.type_voiture }} : {{ voiture.immatriculation }}
                 </option>
                 {% endfor %}
             </select>
         </div>
         </div>
+        </div>
     </div>
-    <div class="field">
-        <label class="label">Technicien</label>
+    <div class="field is-horizontal">
+        <div class="field-label is-normal">
+            <label class="label">Technicien</label>
+        </div>
+        <div class="field-body">
         <div class="control">
         <div class="select">
             <select>
@@ -64,63 +71,36 @@
             </select>
         </div>
         </div>
+        </div>
     </div>
     
     <div id="piece_container">
     <div class="field">
         <label class="label">Pièces détachées</label>
         <div class="control">
-            <button class="button is-success" id="ajout_piece">Ajouter une pièce</button>
+            <button class="button is-info" id="ajout_piece">Ajouter une pièce</button>
         </div>
     </div>
     </div>
-  
-  <div class="field">
-    <label class="label">Username</label>
-    <div class="control has-icons-left has-icons-right">
-      <input class="input is-success" type="text" placeholder="Text input" value="bulma">
-      <span class="icon is-small is-left">
-        <i class="fas fa-user"></i>
-      </span>
-      <span class="icon is-small is-right">
-        <i class="fas fa-check"></i>
-      </span>
+    
+    <div class="field">
+        <label class="label">Date</label>
+        <div class="control">
+            <input class="input" type="date" >
+        </div>
     </div>
-    <p class="help is-success">This username is available</p>
-  </div>
-  
-  <div class="field">
-    <label class="label">Email</label>
-    <div class="control has-icons-left has-icons-right">
-      <input class="input is-danger" type="email" placeholder="Email input" value="hello@">
-      <span class="icon is-small is-left">
-        <i class="fas fa-envelope"></i>
-      </span>
-      <span class="icon is-small is-right">
-        <i class="fas fa-exclamation-triangle"></i>
-      </span>
+    <div class="field">
+        <label class="label">Durée</label>
+        <div class="control">
+            <input class="input" type="time" >
+        </div>
     </div>
-    <p class="help is-danger">This email is invalid</p>
-  </div>
-  
-  <div class="field">
-    <label class="label">Subject</label>
-    <div class="control">
-      <div class="select">
-        <select>
-          <option>Select dropdown</option>
-          <option>With options</option>
-        </select>
-      </div>
+    <div class="field">
+        <label class="label">Remarque</label>
+        <div class="control">
+        <textarea class="textarea"></textarea>
+        </div>
     </div>
-  </div>
-  
-  <div class="field">
-    <label class="label">Message</label>
-    <div class="control">
-      <textarea class="textarea" placeholder="Textarea"></textarea>
-    </div>
-  </div>
   
   <div class="field">
     <div class="control">
