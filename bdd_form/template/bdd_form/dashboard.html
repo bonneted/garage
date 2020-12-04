@@ -39,11 +39,8 @@
 <h1 class="title is-size-4">Nouvelle réparation</h1>
 <form method="post">
     {% csrf_token %} 
-    <div class="field is-horizontal">
-        <div class="field-label is-normal">
-            <label class="label">Voiture</label>
-        </div>
-        <div class="field-body">
+    <div class="field">
+        <label class="label">Voiture</label>
         <div class="control">
         <div class="select">
             <select name='voiture_id'>
@@ -55,13 +52,11 @@
             </select>
         </div>
         </div>
-        </div>
     </div>
-    <div class="field is-horizontal">
-        <div class="field-label is-normal">
+    <div class="field">
+
             <label class="label">Technicien</label>
-        </div>
-        <div class="field-body">
+
         <div class="control">
         <div class="select">
             <select name='technicien_id'>
@@ -72,7 +67,7 @@
                 {% endfor %}
             </select>
         </div>
-        </div>
+
         </div>
     </div>
     
@@ -107,8 +102,8 @@
   <div class="field">
     <div class="control">
       <label class="checkbox">
-        <input type="checkbox" id="reparation_standard" name='tarifaire'>
-        Réparation tarifaire
+        <input type="checkbox" id="reparation_standard" name='forfaitaire'>
+        Réparation forfaitaire
       </label>
     </div>
   </div>
@@ -132,10 +127,10 @@
     </div>
   <div class="field is-grouped">
     <div class="control">
-      <button class="button is-link" name="ajout_reparation">Submit</button>
+      <button class="button is-link" name="ajout_reparation">Envoyer</button>
     </div>
     <div class="control">
-      <button class="button is-link is-light">Cancel</button>
+      <button class="button is-link is-light">Annuler</button>
     </div>
   </div>
   </form>
@@ -143,6 +138,26 @@
 
 
   {% block reparation_table %}
+  <div class="box" id="remarque_modif_popup" style="display: none;border: solid 2px hsl(204, 86%, 53%)">
+    <form method="post"> 
+    {% csrf_token %}
+    <div class="field">
+        <label class="label">Modifier la remarque</label>
+        <div class="control">
+        <textarea class="textarea" name='remarque'></textarea>
+        </div>
+    </div>
+    <input id='reparation_id' name="reparation_id" style = "display: none;">
+    <div class="field is-grouped">
+        <div class="control">
+          <button class="button is-link" name="modif_remarque">Envoyer</button>
+        </div>
+        <div class="control">
+          <div class="button is-link is-light"  onclick='hide_parent2(event)'>Annuler</div>
+        </div>
+      </div>
+    </form>
+  </div>
     <div style="display: flex; justify-content: space-between">
       <h1 class="title is-size-4">Réparation</h1>
       <div class="field has-addons">
@@ -167,7 +182,9 @@
           <th>Voiture</th>
           <th>Technicien</th>
           <th>Date</th>
-          <th>Duree</th>
+          <th>Durée</th>
+          <th>Prix</th>
+          <th>Rem.</th>
         </tr>
       </thead>
       <tbody>
@@ -182,9 +199,11 @@
             <td>{{ reparation.technicien.prenom }} {{ reparation.technicien.nom }}</td>
             <td>{{ reparation.date }}</td>
             <td>{{ reparation.duree }}</td>
+            <td>{{ reparation.prix }}</td>
             <td>
-            <div class="button is-small is-info modifier_reparation" value='hello'><i class="fas fa-plus"></i></div>
-
+            <div class="button is-small is-info modifier_reparation" id={{ reparation.id }} value={{ reparation.remarque_technicien }}>
+                <i class="fas fa-plus" ></i>
+            </div>
             </td>
           </tr>
           {% endfor %}

@@ -53,8 +53,8 @@
     </style>
   </head>
   <body>
-    <button class="tablink title is-size-4" onclick="openPage('ClientVoiture', this)" id="defaultOpen">Client/Voiture</button>
-    <button class="tablink title is-size-4" onclick="openPage('Reparation', this)" >Reparation</button>
+    <button class="tablink title is-size-4" onclick="openPage('ClientVoiture', this)" id="client_voiture">Client/Voiture</button>
+    <button class="tablink title is-size-4" onclick="openPage('Reparation', this)" id="reparation" >Réparation</button>
     <button class="tablink title is-size-4" onclick="openPage('Contact', this)">Contact</button>
     <button class="tablink title is-size-4" onclick="openPage('About', this)">About</button>
     
@@ -277,7 +277,7 @@
 
     
     <div id="Reparation" class="tabcontent has-background-light">
-        <div class="columns is-desktop">
+        <div class="columns">
           <div class="column is-4 desktop">
             <div class="box" id='reparation_form'>
               {% block reparation_form %}{% endblock %}
@@ -318,7 +318,7 @@
       <h3>About</h3>
       <p>Who we are and what we do.</p>
     </div>
-
+    {{ tab_load|json_script:"tab_load" }}
     {{ loading_status|json_script:"loading_status" }}
     <script src="{% static 'bdd_form/js/main.js' %}"></script>
   </body>

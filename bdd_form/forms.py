@@ -58,7 +58,7 @@ class ReparationForm(forms.Form):
         widget=forms.TextInput(attrs={'class': 'input','type':'date'}),
         required=True
         )
-    duree = forms.DurationField(
+    duree = forms.TimeField(
         label='Nom',
         widget=forms.TextInput(attrs={'class': 'input','type':'time'}),
         required=True

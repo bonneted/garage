@@ -8,7 +8,7 @@ from django.utils.dateparse import parse_date,parse_duration
 logger = logging.getLogger(__name__)
 
 def dashboard(request):
-    print(request.POST)
+
     communes = Commune.objects.all()
     voitures = Voiture.objects.all()
     clients = Client.objects.all()
@@ -21,12 +21,13 @@ def dashboard(request):
     reparationform = ReparationForm()
 
     loading_status = "get"
+    tab_load='client_voiture'
 
     if request.method == 'POST':
+       
 
         if 'ajout_client' in request.POST:
             clientform = ClientForm(request.POST)
-
             if clientform.is_valid():
                 nom = request.POST.get('nom')
                 prenom = request.POST.get('prenom')
@@ -77,11 +78,18 @@ def dashboard(request):
         
         if 'ajout_reparation' in request.POST:
 
+            tab_load='client_voiture'
+
             voiture_id = request.POST.get('voiture_id')
             technicien_id = request.POST.get('technicien_id')
             pieces_id = request.POST.getlist('piece_detachee')
             date_reparation = parse_date(request.POST.get('date'))
-            duree = parse_duration(request.POST.get('duree'))
+            duree = parse_duration(request.POST.get('duree')+':00')
+
+            if request.POST.get('forfaitaire') == 'on':
+                prix = request.POST.get('prix')
+            else:
+                prix= duree.seconds/3600*50
 
 
    
@@ -92,13 +100,13 @@ def dashboard(request):
                 date = date_reparation,
                 duree = duree,
                 nom = request.POST.get('nom'),
-                prix = request.POST.get('prix'),
+                prix = prix,
             )
             for id in pieces_id:
                 reparation.pieces_detachees.add(id)
-            #     loading_status='voiture_success'
-            # else:
-            #     loading_status='voiture_fail'
+            
+            tab_load='reparation'
+
         
 
         if 'suppr_client' in request.POST:
@@ -110,6 +118,18 @@ def dashboard(request):
             id_voiture_suppr = request.POST.get('suppr_voiture')
             voiture_suppr = Voiture.objects.get(id=id_voiture_suppr)
             voiture_suppr.delete()
+        
+        if 'modif_remarque' in request.POST:
+            id_rep_modif = request.POST.get('reparation_id')
+            remarque = request.POST.get('remarque')
+            print(remarque)
+           
+            rep_modif = Reparation.objects.get(id=id_rep_modif)
+            print(rep_modif)
+            rep_modif.remarque_technicien = remarque
+            rep_modif.save()
+
+            tab_load='reparation'
 
 
     context = {
@@ -123,6 +143,7 @@ def dashboard(request):
         'voitureform': voitureform,
         'reparationform': reparationform,
         'loading_status': loading_status,
+        'tab_load': tab_load,
     }
 
     return render(request, 'bdd_form/dashboard.html', context)

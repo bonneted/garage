@@ -1,6 +1,11 @@
 function hide_parent(evt) {
   evt.currentTarget.parentNode.style.display = 'none';
 }
+
+function hide_parent2(evt) {
+  evt.currentTarget.parentNode.parentNode.parentNode.parentNode.style.display = 'none';
+}
+
 function suppr_parent(evt) {
   var parent = evt.currentTarget.parentNode.parentNode;
   parent.parentNode.removeChild(parent);
@@ -49,23 +54,22 @@ function show_reparation(evt) {
   }else{
     document.getElementById("nom_reparation").style.display = 'none'
   }
-  // document.getElementById("nom_reparation").style.display = ''
   
 }
 
 function modifier_reparation(event) {
-  var reparation = event.currentTarget
-  console.log(reparation.value,reparation.innerHTML)
-  var modif_form = document.getElementById("reparation_form").cloneNode(true);
-  modif_form.getElementsByTagName('h1')[0].innerHTML = "Modifier la réparation";
+
+  var modif_form = document.getElementById("remarque_modif_popup");
+  var reparation_id = event.currentTarget.id
+  remarque = event.currentTarget.getAttribute('value')
+  console.log(event.currentTarget.getAttribute('value'))
+  modif_form.getElementsByTagName('textarea')[0].value = remarque;
+  document.getElementById('reparation_id').value = reparation_id;
   modif_form.style.position = 'absolute'
   modif_form.style.left = '50%'
-  modif_form.style.top = '10%'
-  modif_form.style.border = 'solid 2px hsl(204, 86%, 53%)'
+  modif_form.style.top = '20%'
+  modif_form.style.display = ''
   
-  $('select[name ="technicien_id"]').value = reparation.technicien.id
-
-  evt.currentTarget.parentNode.parentNode.parentNode.appendChild(modif_form);
 }
 
 
@@ -87,18 +91,25 @@ $('#ajout_piece').on('click', ajout_piece);
 
 $('#reparation_standard').on('click', show_reparation);
 
-var modif_rep = document.getElementsByClassName("button is-small is-info modifier_reparation")
-console.log(modif_rep)
+
 
 const loading_status = JSON.parse(document.getElementById('loading_status').textContent);
 console.log(loading_status)
 
-var delete_buttons = document.getElementsByClassName("delete");
-for (var i = 0; i < delete_buttons.length; i++) {
-  delete_buttons[i].addEventListener('click', hide_parent, false);
+var modif_rep = document.getElementsByClassName("modifier_reparation")
+
+for (var i = 0; i < modif_rep.length; i++) {
+  modif_rep[i].addEventListener('click', modifier_reparation, false);
 }
 
 // tab gestion
+
+const tab_load = JSON.parse(document.getElementById('tab_load').textContent);
+
+console.log(tab_load)
+
+document.getElementById(tab_load).click();
+
 
 function openPage(pageName,elmnt) {
   var i, tabcontent, tablinks;
@@ -117,7 +128,8 @@ function openPage(pageName,elmnt) {
 }
 
 // Get the element with id="defaultOpen" and click on it
-document.getElementById("defaultOpen").click();
+
+
 
 {/* <div class="notification is-success is-fullwidth" style="positiontext-align: center;">
 <button class="delete"></button>
