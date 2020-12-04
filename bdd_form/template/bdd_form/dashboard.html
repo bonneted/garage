@@ -218,10 +218,42 @@
   <div class="tile is-ancestor" style='height: 80vh'>
     <div class="tile is-6 is-vertical is-parent">
       <div class="tile is-child box">
-        <p class="title is-size-4">Heures par Technicien</p>
+        <p class="title is-size-4">Nombre de client par commune</p>
+        <table class="table is-narrow is-striped is-fullwidth">
+            <thead>
+              <tr>
+                <th>Commune</th>
+                <th>Nombre de client</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for commune in communes %}
+                <tr>
+                  <td>{{ commune.nom }}</td>
+                  <td>{{ commune.nb_client }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+          </table>
       </div>
       <div class="tile is-child box">
-        <p class="title">Heures par Technicien</p>
+        <p class="title is-size-4">Réparation par technicien</p>
+        <table class="table is-narrow is-striped is-fullwidth">
+            <thead>
+              <tr>
+                <th>Technicien</th>
+                <th>Nombre de réparation</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for technicien in techniciens %}
+                <tr>
+                  <td>{{ technicien.nom }} {{ technicien.nom }}</td>
+                  <td>{{ technicien.reparations.nom }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+          </table>
       </div>
     </div>
     <div class="tile is-parent">

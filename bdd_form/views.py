@@ -114,6 +114,12 @@ def dashboard(request):
         if 'suppr_client' in request.POST:
             id_client_suppr = request.POST.get('suppr_client')
             client_suppr = Client.objects.get(id=id_client_suppr)
+
+
+            commune = client_suppr.commune
+            commune.nb_client += -1
+            commune.save()
+
             client_suppr.delete()
 
         if 'suppr_voiture' in request.POST:
