@@ -53,13 +53,13 @@
     </style>
   </head>
   <body>
-    <button class="tablink" onclick="openPage('ClientVoiture', this)" id="defaultOpen">Client/Voiture</button>
-    <button class="tablink" onclick="openPage('Reparation', this)" >Reparation</button>
-    <button class="tablink" onclick="openPage('Contact', this)">Contact</button>
-    <button class="tablink" onclick="openPage('About', this)">About</button>
+    <button class="tablink title is-size-4" onclick="openPage('ClientVoiture', this)" id="defaultOpen">Client/Voiture</button>
+    <button class="tablink title is-size-4" onclick="openPage('Reparation', this)" >Reparation</button>
+    <button class="tablink title is-size-4" onclick="openPage('Contact', this)">Contact</button>
+    <button class="tablink title is-size-4" onclick="openPage('About', this)">About</button>
     
     <div id="ClientVoiture" class="tabcontent has-background-light">
-              <div class="tile is-vertical is-parent">
+              <div class="tile is-parent is-vertical">
                 <div class="tile is-child box">
                   <div style="display: flex; justify-content: space-between">
                     <h1 class="title is-size-4">Clients</h1>
@@ -277,15 +277,16 @@
 
     
     <div id="Reparation" class="tabcontent has-background-light">
-        <div class="tile is-parent">
-            <div class="tile is-4 is-child box">
+        <div class="columns is-desktop">
+          <div class="column is-4 desktop">
+            <div class="box" id='reparation_form'>
               {% block reparation_form %}{% endblock %}
               <div class="field has-addons" id='piece_field' style="display: none">
                 <div class="control" id='piece_detachee'>
                 <div class="select">
-                    <select>
+                    <select name="piece_detachee">
                         {% for piece in pieces %}
-                        <option>
+                        <option value= {{piece.id}}>
                           {{ piece.nom }}
                         </option>
                         {% endfor %}
@@ -295,8 +296,16 @@
                 <div class="control">
                   <button type="submit" class="button is-danger" onclick="suppr_parent(event)"><i class="fas fa-times"></i></button>
                 </div>
+              </div>
             </div>
           </div>
+          
+          <div class="column">
+            <div class="box">
+            {% block reparation_table %}{% endblock %}
+          </div>
+          </div>
+        
         </div>
     </div>
     

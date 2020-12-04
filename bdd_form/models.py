@@ -1,4 +1,6 @@
 from django.db import models
+from datetime import datetime 
+import django.utils.timezone
 
 class Commune(models.Model):
     nom = models.CharField(max_length=100)
@@ -32,5 +34,7 @@ class Reparation(models.Model):
     nom = models.CharField(max_length=100,blank=True)
     duree = models.DurationField(blank=True)
     voiture = models.ForeignKey(Voiture, on_delete=models.CASCADE)
+    technicien = models.ForeignKey(Technicien, on_delete=models.CASCADE)
     pieces_detachees= models.ManyToManyField(Piece_detachee,related_name='reparations')
-    
+    date = models.DateField(default=django.utils.timezone.now)
+

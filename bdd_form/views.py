@@ -1,62 +1,24 @@
 from django.shortcuts import render
-
+import logging
 from .models import Commune, Client, Voiture, Technicien, Reparation, Piece_detachee
-from .forms import ClientForm, VoitureForm
+from .forms import ClientForm, VoitureForm,ReparationForm
+from django.utils.dateparse import parse_date,parse_duration
 # Create your views here.
 
-
-def index(request):
-
-    communes = Commune.objects.all()
-    context = {
-        'communes': communes
-    }
-
-    return render(request, 'bdd_form/search_form.html',context)
-
-def search(request):
-
-    communes = Commune.objects.all()
-
-    context = {
-        'communes': communes
-    }
-
-    if request.method == 'POST':
-
-        if 'ajout_commune' in request.POST:
-            nom_commune = request.POST.get('nom_commune')
-            commune = Commune.objects.filter(nom=nom_commune)
-            if not commune.exists():
-                Commune.objects.create(
-                    nom=nom_commune,
-                    nb_client=0
-                )
-
-        if 'ajout_client' in request.POST:
-            nom_commune = request.POST.get('commune_client')
-            commune = Commune.objects.get(nom=nom_commune)
-            commune.nb_client += 1
-            commune.save()
-
-        if 'suppression_commune' in request.POST:
-            nom_commune = request.POST.get('commune_suppr')
-            commune = Commune.objects.get(nom=nom_commune)
-            commune.delete()
-            # commune.save()
-
-    return render(request, 'bdd_form/dashboard.html', context)
-
+logger = logging.getLogger(__name__)
 
 def dashboard(request):
-
+    print(request.POST)
     communes = Commune.objects.all()
     voitures = Voiture.objects.all()
     clients = Client.objects.all()
     techniciens = Technicien.objects.all()
     pieces = Piece_detachee.objects.all()
+    reparations = Reparation.objects.all()
+
     clientform = ClientForm()
     voitureform = VoitureForm()
+    reparationform = ReparationForm()
 
     loading_status = "get"
 
@@ -98,9 +60,7 @@ def dashboard(request):
             voitureform = VoitureForm(request.POST)
 
             if voitureform.is_valid():
-                request_post = request.POST
                 immatriculation = request.POST.get('immatriculation').replace("-", "")
-                marque = request.POST.get('marque')
                 voiture = Voiture.objects.filter(immatriculation=immatriculation)
                 proprietaire_id = request.POST.get('proprietaire')
                 if not voiture.exists():
@@ -114,6 +74,32 @@ def dashboard(request):
                     loading_status='voiture_success'
                 else:
                     loading_status='voiture_fail'
+        
+        if 'ajout_reparation' in request.POST:
+
+            voiture_id = request.POST.get('voiture_id')
+            technicien_id = request.POST.get('technicien_id')
+            pieces_id = request.POST.getlist('piece_detachee')
+            date_reparation = parse_date(request.POST.get('date'))
+            duree = parse_duration(request.POST.get('duree'))
+
+
+   
+            reparation = Reparation.objects.create(
+                technicien = Technicien.objects.get(id=technicien_id),
+                remarque_technicien = request.POST.get('remarque'),
+                voiture = Voiture.objects.get(id=voiture_id),
+                date = date_reparation,
+                duree = duree,
+                nom = request.POST.get('nom'),
+                prix = request.POST.get('prix'),
+            )
+            for id in pieces_id:
+                reparation.pieces_detachees.add(id)
+            #     loading_status='voiture_success'
+            # else:
+            #     loading_status='voiture_fail'
+        
 
         if 'suppr_client' in request.POST:
             id_client_suppr = request.POST.get('suppr_client')
@@ -132,8 +118,10 @@ def dashboard(request):
         'clients': clients,
         'techniciens': techniciens,
         'pieces': pieces,
+        'reparations': reparations,
         'clientform': clientform,
         'voitureform': voitureform,
+        'reparationform': reparationform,
         'loading_status': loading_status,
     }
 

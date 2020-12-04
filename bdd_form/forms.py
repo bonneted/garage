@@ -50,3 +50,16 @@ class VoitureForm(forms.Form):
         widget=forms.NumberInput(attrs={'class': 'input is-small','placeholder':'ex: 10000'}),
         required=True
         )
+
+
+class ReparationForm(forms.Form):
+    date = forms.DateField(
+        label='Nom',
+        widget=forms.TextInput(attrs={'class': 'input','type':'date'}),
+        required=True
+        )
+    duree = forms.DurationField(
+        label='Nom',
+        widget=forms.TextInput(attrs={'class': 'input','type':'time'}),
+        required=True
+        )

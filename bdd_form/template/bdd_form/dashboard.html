@@ -36,7 +36,9 @@
 {% endblock %}
 
 {% block reparation_form %}
-<h1 class="title is-size-4">Réparation</h1>
+<h1 class="title is-size-4">Nouvelle réparation</h1>
+<form method="post">
+    {% csrf_token %} 
     <div class="field is-horizontal">
         <div class="field-label is-normal">
             <label class="label">Voiture</label>
@@ -44,7 +46,7 @@
         <div class="field-body">
         <div class="control">
         <div class="select">
-            <select>
+            <select name='voiture_id'>
                 {% for voiture in voitures %}
                 <option value={{ voiture.id }}>
                     {{ voiture.marque }} {{ voiture.type_voiture }} : {{ voiture.immatriculation }}
@@ -62,9 +64,9 @@
         <div class="field-body">
         <div class="control">
         <div class="select">
-            <select>
+            <select name='technicien_id'>
                 {% for technicien in techniciens %}
-                <option>
+                <option value={{ technicien.id }}>
                   {{ technicien.nom }} {{ technicien.prenom }}
                 </option>
                 {% endfor %}
@@ -78,7 +80,7 @@
     <div class="field">
         <label class="label">Pièces détachées</label>
         <div class="control">
-            <button class="button is-info" id="ajout_piece">Ajouter une pièce</button>
+            <div class="button is-info" id="ajout_piece">Ajouter une pièce</div>
         </div>
     </div>
     </div>
@@ -86,53 +88,109 @@
     <div class="field">
         <label class="label">Date</label>
         <div class="control">
-            <input class="input" type="date" >
+            {{ reparationform.date }}
         </div>
     </div>
     <div class="field">
         <label class="label">Durée</label>
         <div class="control">
-            <input class="input" type="time" >
+            {{ reparationform.duree }}
         </div>
     </div>
     <div class="field">
         <label class="label">Remarque</label>
         <div class="control">
-        <textarea class="textarea"></textarea>
+        <textarea class="textarea" name='remarque'></textarea>
         </div>
     </div>
   
   <div class="field">
     <div class="control">
       <label class="checkbox">
-        <input type="checkbox">
-        I agree to the <a href="#">terms and conditions</a>
+        <input type="checkbox" id="reparation_standard" name='tarifaire'>
+        Réparation tarifaire
       </label>
     </div>
   </div>
-  
-  <div class="field">
+  <div class="field" style='display:none' id='nom_reparation'>
+  <div class="field" >
+    <label class="label">Nom</label>
     <div class="control">
-      <label class="radio">
-        <input type="radio" name="question">
-        Yes
-      </label>
-      <label class="radio">
-        <input type="radio" name="question">
-        No
-      </label>
+        <input class="input" type="text" name='nom' >
     </div>
-  </div>
-  
+    </div>
+    <div class="field">
+        <label class="label">Prix</label>
+        <div class="control has-icons-right">
+            <input class="input" name ='prix' type="number">
+          
+          <span class="icon is-small is-right">
+            <i class="fas fa-euro-sign"></i>
+          </span>
+        </div>
+    </div>
+    </div>
   <div class="field is-grouped">
     <div class="control">
-      <button class="button is-link">Submit</button>
+      <button class="button is-link" name="ajout_reparation">Submit</button>
     </div>
     <div class="control">
       <button class="button is-link is-light">Cancel</button>
     </div>
   </div>
+  </form>
   {% endblock %}
 
 
+  {% block reparation_table %}
+    <div style="display: flex; justify-content: space-between">
+      <h1 class="title is-size-4">Réparation</h1>
+      <div class="field has-addons">
+        <div class="control">
+          <input
+            class="input"
+            type="text"
+            placeholder="Rechercher"
+            id="textRechReparation"
+          />
+        </div>
+        <div class="control">
+          <a class="button is-info" id="buttonRechReparation">
+            <i class="fas fa-search"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+    <table class="table is-narrow is-striped is-fullwidth">
+      <thead>
+        <tr>
+          <th>Voiture</th>
+          <th>Technicien</th>
+          <th>Date</th>
+          <th>Duree</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr></tr>
+        <form method="post">
+          {% csrf_token %} 
+          {% for reparation in reparations %}
+          <tr>
+            <td>
+            {{ reparation.voiture.marque }} {{ reparation.voiture.type_voiture }} : {{ reparation.voiture.immatriculation }}
+            </td>
+            <td>{{ reparation.technicien.prenom }} {{ reparation.technicien.nom }}</td>
+            <td>{{ reparation.date }}</td>
+            <td>{{ reparation.duree }}</td>
+            <td>
+            <div class="button is-small is-info modifier_reparation" value='hello'><i class="fas fa-plus"></i></div>
 
+            </td>
+          </tr>
+          {% endfor %}
+        </form>
+      </tbody>
+    </table>
+  </div> 
+
+  {% endblock %}
