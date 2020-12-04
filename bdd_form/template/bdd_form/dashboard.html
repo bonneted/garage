@@ -246,10 +246,10 @@
               </tr>
             </thead>
             <tbody>
-                {% for technicien in techniciens %}
+                {% for reparation_technicien in reparation_techniciens %}
                 <tr>
-                  <td>{{ technicien.nom }} {{ technicien.nom }}</td>
-                  <td>{{ technicien.reparations.nom }}</td>
+                  <td>{{ reparation_technicien.0 }} {{ reparation_technicien.1 }}</td>
+                  <td>{{ reparation_technicien.2 }}</td>
                 </tr>
                 {% endfor %}
             </tbody>

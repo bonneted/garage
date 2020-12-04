@@ -3,6 +3,8 @@ import logging
 from .models import Commune, Client, Voiture, Technicien, Reparation, Piece_detachee
 from .forms import ClientForm, VoitureForm,ReparationForm
 from django.utils.dateparse import parse_date,parse_duration
+from django.db import connection
+
 # Create your views here.
 
 logger = logging.getLogger(__name__)
@@ -10,6 +12,13 @@ logger = logging.getLogger(__name__)
 def search_form(request):
     return render(request, 'bdd_form/search_form.html')
 def dashboard(request):
+
+    with connection.cursor() as cursor:
+
+        cursor.execute('SELECT b.prenom, b.nom, count(*) AS nb_reparations FROM garage_dj.bdd_form_reparation AS a JOIN garage_dj.bdd_form_technicien AS b ON a.technicien_id=b.id GROUP BY a.technicien_id')
+        reparation_techniciens = cursor.fetchall()
+        print(reparation_techniciens)
+
 
     communes = Commune.objects.all()
     voitures = Voiture.objects.all()
@@ -152,6 +161,7 @@ def dashboard(request):
         'reparationform': reparationform,
         'loading_status': loading_status,
         'tab_load': tab_load,
+        'reparation_techniciens': reparation_techniciens,
     }
 
     return render(request, 'bdd_form/dashboard.html', context)
