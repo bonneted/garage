@@ -7,6 +7,8 @@ from django.utils.dateparse import parse_date,parse_duration
 
 logger = logging.getLogger(__name__)
 
+def search_form(request):
+    return render(request, 'bdd_form/search_form.html')
 def dashboard(request):
 
     communes = Commune.objects.all()

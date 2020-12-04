@@ -22,7 +22,7 @@ from bdd_form import views
 urlpatterns = [
     url(r'^$', views.dashboard),
     url(r'^admin/', admin.site.urls),
-    url(r'^bdd_form/',include('bdd_form.urls'))
+    url(r'^bdd_form/',views.dashboard,name='bdd_form')
 ]
 
 if settings.DEBUG:
