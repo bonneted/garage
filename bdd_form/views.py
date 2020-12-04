@@ -14,8 +14,7 @@ def search_form(request):
 def dashboard(request):
 
     with connection.cursor() as cursor:
-
-        cursor.execute('SELECT b.prenom, b.nom, count(*) AS nb_reparations FROM garage_dj.bdd_form_reparation AS a JOIN garage_dj.bdd_form_technicien AS b ON a.technicien_id=b.id GROUP BY a.technicien_id')
+        cursor.execute('SELECT b.prenom, b.nom, count(a.id) AS nb_reparations FROM garage_dj.bdd_form_reparation AS a RIGHT JOIN garage_dj.bdd_form_technicien AS b ON a.technicien_id=b.id GROUP BY a.technicien_id')
         reparation_techniciens = cursor.fetchall()
         print(reparation_techniciens)
 
@@ -35,7 +34,6 @@ def dashboard(request):
     tab_load='client_voiture'
 
     if request.method == 'POST':
-       
 
         if 'ajout_client' in request.POST:
             clientform = ClientForm(request.POST)
