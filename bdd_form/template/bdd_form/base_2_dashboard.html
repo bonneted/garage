@@ -37,7 +37,8 @@
           cursor: pointer;
           padding: 14px 16px;
           font-size: 17px;
-          width: 25%;
+          width: 33.33%;
+          height: 9vh;
         }
         
         .tablink:hover {
@@ -55,8 +56,8 @@
   <body>
     <button class="tablink title is-size-4" onclick="openPage('ClientVoiture', this)" id="client_voiture">Client/Voiture</button>
     <button class="tablink title is-size-4" onclick="openPage('Reparation', this)" id="reparation" >Réparation</button>
-    <button class="tablink title is-size-4" onclick="openPage('Contact', this)">Contact</button>
-    <button class="tablink title is-size-4" onclick="openPage('About', this)">About</button>
+    <button class="tablink title is-size-4" onclick="openPage('Statistiques', this)">Statistiques</button>
+    <!-- <button class="tablink title is-size-4"></button> -->
     
     <div id="ClientVoiture" class="tabcontent has-background-light">
               <div class="tile is-parent is-vertical">
@@ -309,15 +310,11 @@
         </div>
     </div>
     
-    <div id="Contact" class="tabcontent">
-      <h3>Contact</h3>
-      <p>Get in touch, or swing by for a cup of coffee.</p>
+    <div id="Statistiques" class="tabcontent has-background-light" style="height: 100vh;">
+      {% block statistiques %}{% endblock %}
     </div>
     
-    <div id="About" class="tabcontent">
-      <h3>About</h3>
-      <p>Who we are and what we do.</p>
-    </div>
+
     {{ tab_load|json_script:"tab_load" }}
     {{ loading_status|json_script:"loading_status" }}
     <script src="{% static 'bdd_form/js/main.js' %}"></script>
