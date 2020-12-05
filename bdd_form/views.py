@@ -17,10 +17,6 @@ def dashboard(request):
     with connection.cursor() as cursor:
         cursor.execute('SELECT b.prenom, b.nom, count(a.id) AS nb_reparations FROM garage_dj.bdd_form_reparation AS a RIGHT JOIN garage_dj.bdd_form_technicien AS b ON a.technicien_id=b.id GROUP BY a.technicien_id')
         reparation_techniciens = cursor.fetchall()
-<<<<<<< HEAD
-
-=======
->>>>>>> d7208fdbfd6a2dada449f83e4be7d70d25cba981
 
 
     communes = Commune.objects.all()
@@ -38,6 +34,7 @@ def dashboard(request):
     tab_load='client_voiture'
 
     if request.method == 'POST':
+        
 
         if 'ajout_client' in request.POST:
             clientform = ClientForm(request.POST)
@@ -151,8 +148,8 @@ def dashboard(request):
 
             tab_load='reparation'
 
-        return HttpResponseRedirect("/bdd_form/?reparation")
-
+            return HttpResponseRedirect("/bdd_form/?reparation")
+        return HttpResponseRedirect("/bdd_form/")
     context = {
         'communes': communes,
         'voitures': voitures,
