@@ -138,7 +138,7 @@
 
 
   {% block reparation_table %}
-  <div class="box" id="remarque_modif_popup" style="display: none;border: solid 2px hsl(204, 86%, 53%)">
+  <div class="box" id="remarque_modif_popup" style="display: none;border: solid 2px hsl(204, 86%, 53%); z-index: 2">
     <form method="post"> 
     {% csrf_token %}
     <div class="field">
@@ -203,6 +203,7 @@
             <td>
             <div class="button is-small is-info modifier_reparation" id={{ reparation.id }} value={{ reparation.remarque_technicien }}>
                 <i class="fas fa-plus" ></i>
+            <p style='display:none'>{{ reparation.remarque_technicien }}</p>
             </div>
             </td>
           </tr>

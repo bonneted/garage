@@ -61,7 +61,9 @@ function modifier_reparation(event) {
 
   var modif_form = document.getElementById("remarque_modif_popup");
   var reparation_id = event.currentTarget.id
-  remarque = event.currentTarget.getAttribute('value')
+  remarque = event.currentTarget.getElementsByTagName('p')[0].innerHTML
+  // remarque = document.getElementById('remarque_container').innerHTML
+  console.log(remarque)
   console.log(event.currentTarget.getAttribute('value'))
   modif_form.getElementsByTagName('textarea')[0].value = remarque;
   document.getElementById('reparation_id').value = reparation_id;
