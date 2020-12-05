@@ -20,6 +20,10 @@ function recherche(evt) {
   let parent_block =  evt.currentTarget.parentNode.parentNode;
   let ancestor_block = parent_block.parentNode.parentNode;
   
+<<<<<<< HEAD
+=======
+  console.log(parent_block)
+>>>>>>> d7208fdbfd6a2dada449f83e4be7d70d25cba981
   let txt_recherche = parent_block.getElementsByTagName("input")[0].value;
   var rows = ancestor_block.getElementsByTagName("table")[0].rows;
 
@@ -62,6 +66,11 @@ function modifier_reparation(event) {
   var reparation_id = event.currentTarget.id
   remarque = event.currentTarget.getElementsByTagName('p')[0].innerHTML
   // remarque = document.getElementById('remarque_container').innerHTML
+<<<<<<< HEAD
+=======
+  console.log(remarque)
+  console.log(event.currentTarget.getAttribute('value'))
+>>>>>>> d7208fdbfd6a2dada449f83e4be7d70d25cba981
   modif_form.getElementsByTagName('textarea')[0].value = remarque;
   document.getElementById('reparation_id').value = reparation_id;
   modif_form.style.position = 'absolute'
@@ -105,6 +114,11 @@ for (var i = 0; i < modif_rep.length; i++) {
 
 const tab_load = JSON.parse(document.getElementById('tab_load').textContent);
 
+<<<<<<< HEAD
+=======
+console.log(tab_load)
+
+>>>>>>> d7208fdbfd6a2dada449f83e4be7d70d25cba981
 document.getElementById(tab_load).click();
 
 

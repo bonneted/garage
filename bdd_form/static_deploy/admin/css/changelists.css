@@ -89,7 +89,11 @@
     color: #333;
 }
 
+<<<<<<< HEAD
 #searchbar {
+=======
+#toolbar #searchbar {
+>>>>>>> d7208fdbfd6a2dada449f83e4be7d70d25cba981
     height: 19px;
     border: 1px solid #ccc;
     padding: 2px 5px;
@@ -99,7 +103,11 @@
     max-width: 100%;
 }
 
+<<<<<<< HEAD
 #searchbar:focus {
+=======
+#toolbar #searchbar:focus {
+>>>>>>> d7208fdbfd6a2dada449f83e4be7d70d25cba981
     border-color: #999;
 }
 
