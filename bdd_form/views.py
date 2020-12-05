@@ -16,7 +16,6 @@ def dashboard(request):
     with connection.cursor() as cursor:
         cursor.execute('SELECT b.prenom, b.nom, count(a.id) AS nb_reparations FROM garage_dj.bdd_form_reparation AS a RIGHT JOIN garage_dj.bdd_form_technicien AS b ON a.technicien_id=b.id GROUP BY a.technicien_id')
         reparation_techniciens = cursor.fetchall()
-        print(reparation_techniciens)
 
 
     communes = Commune.objects.all()
