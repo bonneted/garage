@@ -105,18 +105,7 @@ for (var i = 0; i < modif_rep.length; i++) {
 
 const tab_load = JSON.parse(document.getElementById('tab_load').textContent);
 
-const queryString = window.location.search;
-const tab_load2 = queryString.substring(1);
-console.log(tab_load2);
-
-if(tab_load2!=''){
-  document.getElementById(tab_load2).click();
-
-}else{
-  document.getElementById(tab_load).click();
-}
-
-
+document.getElementById(tab_load).click();
 
 
 function openPage(pageName,elmnt) {

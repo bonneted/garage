@@ -4,6 +4,7 @@ from .models import Commune, Client, Voiture, Technicien, Reparation, Piece_deta
 from .forms import ClientForm, VoitureForm,ReparationForm
 from django.utils.dateparse import parse_date,parse_duration
 from django.db import connection
+from django.http import HttpResponseRedirect
 
 # Create your views here.
 
@@ -16,7 +17,7 @@ def dashboard(request):
     with connection.cursor() as cursor:
         cursor.execute('SELECT b.prenom, b.nom, count(a.id) AS nb_reparations FROM garage_dj.bdd_form_reparation AS a RIGHT JOIN garage_dj.bdd_form_technicien AS b ON a.technicien_id=b.id GROUP BY a.technicien_id')
         reparation_techniciens = cursor.fetchall()
-        print(reparation_techniciens)
+
 
 
     communes = Commune.objects.all()
@@ -115,6 +116,7 @@ def dashboard(request):
                 reparation.pieces_detachees.add(id)
             
             tab_load='reparation'
+            return HttpResponseRedirect("/bdd_form/?reparation")
 
         
 
@@ -140,12 +142,13 @@ def dashboard(request):
             print(remarque)
            
             rep_modif = Reparation.objects.get(id=id_rep_modif)
-            print(rep_modif)
+
             rep_modif.remarque_technicien = remarque
             rep_modif.save()
 
             tab_load='reparation'
 
+        return HttpResponseRedirect("/bdd_form/?reparation")
 
     context = {
         'communes': communes,
